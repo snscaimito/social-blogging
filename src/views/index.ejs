@@ -2,17 +2,26 @@
 <html>
 
 <head>
-  <title>
-    <%= title %>
-  </title>
 </head>
 
 <body>
-  <h1>
-    <%= title %>
-  </h1>
   <p>Referer: <%= referer %>
   </p>
+  <ul>
+    <li>
+      <p>Some comment with a few lines of text. Some comment with a few lines of text. Some comment with a few lines of
+        text. Some comment with a few lines of text. </p>
+      <button>Reply</button>
+    </li>
+  </ul>
+  <form action="/comment" method="post">
+    <fieldset>
+      <legend>Leave a comment</legend>
+      <label for="comment">Comment</label>
+      <textarea name="comment" rows="4" cols="50"></textarea>
+    </fieldset>
+    <input type="submit" value="Submit" />
+  </form>
 </body>
 
 </html>
