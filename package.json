@@ -1,0 +1,23 @@
+{
+  "name": "social-blogging",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "vitest",
+    "start": "node src/server.js",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "author": "Stephan Schwab",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "standard": "^17.1.0",
+    "supertest": "^6.3.4",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
