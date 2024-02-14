@@ -5,9 +5,18 @@ const app = express()
 const port = 3000
 
 app.use(morgan('dev'))
+app.set('view engine', 'ejs')
+app.set('views', 'src/views')
 
 app.get('/', (req, res) => {
-  res.send('Hello, World!')
+  res.render('index', {
+    title: 'Hello, World!',
+    referer: req.headers.referer
+  })
+
+  // use referer to find the comments for this post
+  const referer = req.headers.referer
+  console.log('Referer:', referer)
 })
 
 app.listen(port, () => {
