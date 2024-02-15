@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
+  <head> </head>
 
-<head>
-</head>
-
-<body>
-  <p>Referer: <%= referer %>
-  </p>
-  <ul>
-    <li>
-      <p>Some comment with a few lines of text. Some comment with a few lines of text. Some comment with a few lines of
-        text. Some comment with a few lines of text. </p>
-      <button>Reply</button>
-    </li>
-  </ul>
-  <form action="/comment" method="post">
-    <fieldset>
-      <legend>Leave a comment</legend>
-      <label for="comment">Comment</label>
-      <textarea name="comment" rows="4" cols="50"></textarea>
-    </fieldset>
-    <input type="submit" value="Submit" />
-  </form>
-</body>
-
+  <body>
+    <ul>
+      <% comments.forEach(function(comment) { %>
+      <li><%= comment.comment %></li>
+      <% }) %>
+      <li>
+        <p>
+          Some comment with a few lines of text. Some comment with a few lines
+          of text. Some comment with a few lines of text. Some comment with a
+          few lines of text.
+        </p>
+        <button>Reply</button>
+      </li>
+    </ul>
+    <form action="/comment" method="post">
+      <fieldset>
+        <legend>Leave a comment</legend>
+        <label for="comment">Comment</label>
+        <textarea name="comment" rows="4" cols="50"></textarea>
+      </fieldset>
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
 </html>

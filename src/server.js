@@ -1,26 +1,56 @@
 import express from 'express'
 import morgan from 'morgan'
+import { setupDatabase, addComment, findComments } from './database.js'
 
 const app = express()
 const port = 3000
 
 app.use(morgan('dev'))
+app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.set('views', 'src/views')
 
+app.post('/comment', (req, res) => {
+  // TODO who posted this comment?
+  const comment = req.body.comment
+  const referer = req.headers.referer // TODO this referer is wrong
+
+  return addComment(comment, referer)
+    .then(() => {
+      res.redirect('/')
+    })
+    .catch((err) => {
+      console.error(err.message)
+    })
+})
+
 app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Hello, World!',
-    referer: req.headers.referer
-  })
-
-  // use referer to find the comments for this post
   const referer = req.headers.referer
-  console.log('Referer:', referer)
+  findComments(referer)
+    .then((comments) => {
+      res.render('index', { comments })
+    })
+    .catch((err) => {
+      console.error(err.message)
+      res.render('index', { comments: [] })
+    })
 })
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`)
-})
+function startServer () {
+  return setupDatabase()
+    .then(() => {
+      console.log('Database setup complete.')
+    })
+    .then(() => {
+      app.listen(port, () => {
+        console.log(`Server listening at http://localhost:${port}`)
+      })
+    })
+    .catch((err) => {
+      console.error(err.message)
+    })
+}
+
+startServer()
 
 export default app
