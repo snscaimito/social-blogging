@@ -19,6 +19,7 @@
     "vitest": "^1.2.2"
   },
   "dependencies": {
+    "dotenv": "^16.4.4",
     "ejs": "^3.1.9",
     "express": "^4.17.1",
     "morgan": "^1.10.0",

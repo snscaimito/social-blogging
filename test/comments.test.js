@@ -1,3 +1,4 @@
+import './setupTests.js'
 import { test } from 'vitest'
 import { setupDatabase, addComment, findComments } from '../src/database.js'
 

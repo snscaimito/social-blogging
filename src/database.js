@@ -1,11 +1,14 @@
+import dotenv from 'dotenv'
 import { open } from 'sqlite'
 import sqlite3 from 'sqlite3'
+
+dotenv.config()
 
 let database
 
 function setupDatabase () {
   return open({
-    filename: ':memory:',
+    filename: process.env.SQLITE_FILENAME,
     driver: sqlite3.Database
   })
     .then((db) => {

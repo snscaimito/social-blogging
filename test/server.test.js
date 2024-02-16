@@ -1,3 +1,4 @@
+import './setupTests.js'
 import { describe, test } from 'vitest'
 import request from 'supertest'
 import app from '../src/server.js'
