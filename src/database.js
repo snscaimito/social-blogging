@@ -142,6 +142,9 @@ function findPost (articleUrl, networkName) {
   JOIN networks ON posts.network_id = networks.id
   WHERE articles.url = ? AND networks.name = ?`
   return database.get(sql, [articleUrl, networkName])
+    .then((post) => {
+      return post
+    })
 }
 
 export {
