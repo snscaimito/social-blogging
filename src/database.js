@@ -8,7 +8,7 @@ let database
 
 function setupDatabase () {
   return open({
-    filename: process.env.SQLITE_FILENAME,
+    filename: '/var/lib/sqlite/' + (process.env.SQLITE_FILENAME || 'published.db'),
     driver: sqlite3.Database
   })
     .then((db) => {
