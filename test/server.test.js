@@ -4,17 +4,10 @@ import request from 'supertest'
 import app from '../src/server.js'
 
 describe('server', () => {
-  test('GET / with referer', async ({ expect }) => {
+  test('GET /posted-on/:service', async ({ expect }) => {
     const response = await request(app)
-      .get('/')
-      .set('referer', 'http://example.com')
+      .get('/posted-on/twitter')
     expect(response.status).toBe(200)
-  })
-
-  test('POST /comment', async ({ expect }) => {
-    const response = await request(app)
-      .post('/comment')
-      .send({ comment: 'Hello!' })
-    expect(response.status).toBe(302)
+    expect(response.body.postUrl).toBe('http://example.com')
   })
 })

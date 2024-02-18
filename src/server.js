@@ -1,38 +1,50 @@
 import express from 'express'
-import morgan from 'morgan'
-import { setupDatabase, addComment, findComments } from './database.js'
+import { setupDatabase, addComment, findComments, deleteComment } from './database.js'
 
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(morgan('dev'))
-app.use(express.urlencoded({ extended: true }))
-app.set('view engine', 'ejs')
-app.set('views', 'src/views')
+app.get('/posted-on/:service', (req, res) => {
+  const service = req.params.service
+  console.log(`Posted on ${service}`)
+  res.json({ postUrl: 'http://example.com' })
+})
 
-app.post('/comment', (req, res) => {
+app.get('/comments', (req, res) => {
+  const referer = req.headers.referer
+  findComments(referer)
+    .then((comments) => {
+      res.json(comments)
+    })
+    .catch((err) => {
+      console.error(err.message)
+      res.json([])
+    })
+})
+
+app.post('/comments', (req, res) => {
   // TODO who posted this comment?
   const comment = req.body.comment
   const referer = req.headers.referer // TODO this referer is wrong
 
   return addComment(comment, referer)
     .then(() => {
-      res.redirect('/')
+      res.sendStatus(200)
     })
     .catch((err) => {
       console.error(err.message)
     })
 })
 
-app.get('/', (req, res) => {
-  const referer = req.headers.referer
-  findComments(referer)
-    .then((comments) => {
-      res.render('index', { comments })
+app.delete('/comments/:id', (req, res) => {
+  // TODO who is deleting this comment?
+  const id = req.params.id
+  deleteComment(id)
+    .then(() => {
+      res.sendStatus(204)
     })
     .catch((err) => {
       console.error(err.message)
-      res.render('index', { comments: [] })
     })
 })
 
