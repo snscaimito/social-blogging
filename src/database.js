@@ -1,53 +1,43 @@
-import dotenv from 'dotenv'
 import { open } from 'sqlite'
 import sqlite3 from 'sqlite3'
 
-dotenv.config()
-
 let database
 
-function setupDatabase () {
-  return open({
-    filename: '/var/lib/sqlite/' + (process.env.SQLITE_FILENAME || 'published.db'),
+async function setupDatabase () {
+  database = await open({
+    filename: (process.env.SQLITE_FILENAME || '/var/lib/sqlite/published.db'),
     driver: sqlite3.Database
   })
-    .then((db) => {
-      database = db
+
+  return database.run(`CREATE TABLE IF NOT EXISTS articles (
+    id INTEGER PRIMARY KEY,
+    url TEXT UNIQUE
+    )`)
+    .then(() => {
+      console.log('Created the articles table.')
     })
     .then(() => {
-      return database.run(`CREATE TABLE IF NOT EXISTS articles (
-        id INTEGER PRIMARY KEY,
-        url TEXT UNIQUE
-        )`)
+      return database.run(`CREATE TABLE IF NOT EXISTS networks (
+      id INTEGER PRIMARY KEY,
+      name TEXT UNIQUE
+      )`)
         .then(() => {
-          console.log('Created the articles table.')
-        })
-        .then(() => {
-          return database.run(`CREATE TABLE IF NOT EXISTS networks (
-          id INTEGER PRIMARY KEY,
-          name TEXT UNIQUE
-          )`)
-            .then(() => {
-              console.log('Created the networks table.')
-            })
-        })
-        .then(() => {
-          return database.run(`CREATE TABLE IF NOT EXISTS posts (
-          id INTEGER PRIMARY KEY,
-          article_id INTEGER,
-          network_id INTEGER,
-          posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-          post_url TEXT,
-          FOREIGN KEY(article_id) REFERENCES articles(id),
-          FOREIGN KEY(network_id) REFERENCES networks(id)
-          )`)
-            .then(() => {
-              console.log('Created the posts table.')
-            })
+          console.log('Created the networks table.')
         })
     })
-    .catch((err) => {
-      console.error(err.message)
+    .then(() => {
+      return database.run(`CREATE TABLE IF NOT EXISTS posts (
+      id INTEGER PRIMARY KEY,
+      article_id INTEGER,
+      network_id INTEGER,
+      posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
+      post_url TEXT,
+      FOREIGN KEY(article_id) REFERENCES articles(id),
+      FOREIGN KEY(network_id) REFERENCES networks(id)
+      )`)
+        .then(() => {
+          console.log('Created the posts table.')
+        })
     })
 }
 
@@ -142,9 +132,6 @@ function findPost (articleUrl, networkName) {
   JOIN networks ON posts.network_id = networks.id
   WHERE articles.url = ? AND networks.name = ?`
   return database.get(sql, [articleUrl, networkName])
-    .then((post) => {
-      return post
-    })
 }
 
 export {
