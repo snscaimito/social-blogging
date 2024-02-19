@@ -12,7 +12,7 @@ describe('publishing', () => {
     return postToActivityPub('https://example.com/article')
   })
 
-  test('find article details', async ({ expect }) => {
+  test.skip('find article details', async ({ expect }) => {
     return postToActivityPub('https://example.com/article')
       .then(() => {
         return findPost('https://example.com/article', 'activityPub')

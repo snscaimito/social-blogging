@@ -15,12 +15,12 @@ describe('publishing', () => {
   })
 
   // TODO intermittent failure
-  // test.skip('find post', async ({ expect }) => {
-  //   await savePost('http://activity-pub.com', 'http://example.com', 'activityPub')
+  test.skip('find post', async ({ expect }) => {
+    await savePost('http://activity-pub.com', 'http://example.com', 'activityPub')
 
-  //   return findPost('http://example.com', 'activityPub')
-  //     .then((post) => {
-  //       expect(post.post_url).toBe('http://activity-pub.com')
-  //     })
-  // })
+    return findPost('http://example.com', 'activityPub')
+      .then((post) => {
+        expect(post.post_url).toBe('http://activity-pub.com')
+      })
+  })
 })
