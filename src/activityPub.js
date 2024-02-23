@@ -25,7 +25,6 @@ function doPost (message) {
         return response.json()
       })
       .then(data => {
-        console.log(data)
         return data
       })
       .catch(error => {
@@ -39,7 +38,6 @@ function doPost (message) {
 }
 
 function postToActivityPub (message) {
-  console.log('Posting to ActivityPub:', message)
   return doPost(message)
     .then((post) => {
       return savePost(post.postUrl, message.link, 'activityPub')

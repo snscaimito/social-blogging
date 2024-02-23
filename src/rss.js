@@ -10,8 +10,6 @@ const parser = new Parser({
 })
 
 function publishFromRss () {
-  console.log('FAKE PUBLISHING FROM RSS FEED...', process.env.RSS_FEED_URL)
-
   parser.parseURL(process.env.RSS_FEED_URL)
     .then((feed) => {
       console.log('Publishing feed', feed.title)

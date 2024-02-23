@@ -1,7 +1,11 @@
-import './setupTests.js'
+import dotenv from 'dotenv'
 import { beforeEach, describe, test } from 'vitest'
 import { setupDatabase, findPost } from '../src/database.js'
 import { postToActivityPub } from '../src/activityPub.js'
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
 
 describe('publishing', () => {
   beforeEach(async () => {

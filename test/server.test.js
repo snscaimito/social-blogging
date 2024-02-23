@@ -1,8 +1,12 @@
-import './setupTests.js'
+import dotenv from 'dotenv'
 import { describe, test, beforeEach } from 'vitest'
 import request from 'supertest'
 import app from '../src/server.js'
 import { savePost, setupDatabase } from '../src/database.js'
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
 
 describe('server', () => {
   beforeEach(async () => {

@@ -3,12 +3,14 @@ import express from 'express'
 import { setupDatabase, findPost } from './database.js'
 import { publishFromRss } from './rss.js'
 
-dotenv.config()
-
 if (!process.env.NODE_ENV) {
   console.log('Setting NODE_ENV to "development" as it was not set.')
   process.env.NODE_ENV = 'development'
 }
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -34,8 +36,6 @@ app.get('/posted-on/:service', (req, res) => {
 function startPublishing () {
   const publishingInterval = process.env.POSTING_INTERVAL || 60000
 
-  console.log('Publishing from RSS every ' + publishingInterval + 'ms')
-
   publishFromRss()
   setInterval(() => {
     publishFromRss()
@@ -44,9 +44,6 @@ function startPublishing () {
 
 function startServer () {
   return setupDatabase()
-    .then(() => {
-      console.log('Database setup complete.')
-    })
     .then(() => {
       app.listen(port, () => {
         console.log(`Server listening at http://localhost:${port}`)

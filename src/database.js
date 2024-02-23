@@ -4,29 +4,22 @@ import sqlite3 from 'sqlite3'
 let database
 
 async function setupDatabase () {
+  const SQLITE_FILENAME = process.env.SQLITE_FILENAME || '/var/lib/sqlite/published.db'
+
   database = await open({
-    filename: (process.env.SQLITE_FILENAME || '/var/lib/sqlite/published.db'),
+    filename: SQLITE_FILENAME,
     driver: sqlite3.Database
   })
 
-  return database.run(`CREATE TABLE IF NOT EXISTS articles (
+  await database.run(`CREATE TABLE IF NOT EXISTS articles (
     id INTEGER PRIMARY KEY,
     url TEXT UNIQUE
     )`)
-    .then(() => {
-      console.log('Created the articles table.')
-    })
-    .then(() => {
-      return database.run(`CREATE TABLE IF NOT EXISTS networks (
+  await database.run(`CREATE TABLE IF NOT EXISTS networks (
       id INTEGER PRIMARY KEY,
       name TEXT UNIQUE
       )`)
-        .then(() => {
-          console.log('Created the networks table.')
-        })
-    })
-    .then(() => {
-      return database.run(`CREATE TABLE IF NOT EXISTS posts (
+  await database.run(`CREATE TABLE IF NOT EXISTS posts (
       id INTEGER PRIMARY KEY,
       article_id INTEGER,
       network_id INTEGER,
@@ -35,10 +28,6 @@ async function setupDatabase () {
       FOREIGN KEY(article_id) REFERENCES articles(id),
       FOREIGN KEY(network_id) REFERENCES networks(id)
       )`)
-        .then(() => {
-          console.log('Created the posts table.')
-        })
-    })
 }
 
 function closeDatabase () {
