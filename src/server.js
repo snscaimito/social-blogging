@@ -5,6 +5,11 @@ import { publishFromRss } from './rss.js'
 
 dotenv.config()
 
+if (!process.env.NODE_ENV) {
+  console.log('Setting NODE_ENV to "development" as it was not set.')
+  process.env.NODE_ENV = 'development'
+}
+
 const app = express()
 const port = process.env.PORT || 3000
 
