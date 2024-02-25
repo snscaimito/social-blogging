@@ -33,4 +33,9 @@ public class SocialBloggingItem {
     return categories;
   }
 
+  @Override
+  public String toString() {
+    return "SocialBloggingItem [title=" + title + ", articleURL=" + articleURL + ", categories=" + categories + "]";
+  }
+
 }
