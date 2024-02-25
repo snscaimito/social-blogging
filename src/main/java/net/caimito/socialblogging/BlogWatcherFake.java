@@ -13,7 +13,7 @@ import com.rometools.rome.io.XmlReader;
 
 @Component
 @Profile("test")
-public class BlogWatcherFake implements BlogWatcher {
+public class BlogWatcherFake extends RssReader implements BlogWatcher {
   private static final Logger LOGGER = LoggerFactory.getLogger(BlogWatcherFake.class);
 
   @Override
@@ -24,11 +24,7 @@ public class BlogWatcherFake implements BlogWatcher {
       SyndFeedInput input = new SyndFeedInput();
       SyndFeed feed = input.build(new XmlReader(file));
 
-      feed.getEntries().forEach(entry -> {
-        SocialBloggingItem item = RssItemTransformer.toSocialBloggingItem(entry);
-        LOGGER.info("Item {}", item);
-      });
-
+      processFeed(feed);
     } catch (Exception e) {
       LOGGER.error("Error reading feed", e);
       throw new RuntimeException(e);
