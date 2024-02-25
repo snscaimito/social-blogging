@@ -2,6 +2,10 @@ export function isDevelopmentMode () {
   return process.env.NODE_ENV === 'development'
 }
 
+export function isProductionMode () {
+  return process.env.NODE_ENV === 'production'
+}
+
 function shortenText (text, length) {
   if (text.length <= length) {
     return text
@@ -26,7 +30,6 @@ export function formatMessage (message, characterLimit) {
   if (hashTags) {
     messageFooter = `\n\n${linkText}\n\n${hashTags}`
   } else {
-    console.log('No hashtags')
     messageFooter = `\n\n${linkText}`
   }
 

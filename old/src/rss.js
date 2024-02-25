@@ -1,5 +1,5 @@
 import Parser from 'rss-parser'
-import { postTo } from './publish.js'
+import { postArticleToSocialMedia } from './publish.js'
 
 const parser = new Parser({
   customFields: {
@@ -23,7 +23,7 @@ function publishFromRss () {
           hashTags: item.hashTags ? item.hashTags.split(',') : []
         }
 
-        return postTo('activityPub', message)
+        return postArticleToSocialMedia(message)
           .catch((err) => {
             console.error(err.message)
           })
