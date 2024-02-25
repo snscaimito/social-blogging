@@ -1,0 +1,14 @@
+name: social-blogging-development
+
+volumes:
+  social-blogging:
+
+services:
+  mongo:
+    profiles:
+      - development
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - social-blogging:/data/db

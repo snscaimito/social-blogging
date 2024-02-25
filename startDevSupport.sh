@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker compose up // -d  
+docker compose --profile development -f docker-compose.development.yml up

@@ -4,9 +4,16 @@ volumes:
   social-blogging:
 
 services:
-  mongodb:
+  mongo:
     image: mongo
-    ports:
-      - "27017:27017"
     volumes:
       - social-blogging:/data/db
+  social-blogging:
+    build: 
+      context: .
+      args:
+        - VERSION=0.0.1
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
