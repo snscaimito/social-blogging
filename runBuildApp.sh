@@ -1,3 +1,5 @@
 #!/bin/bash
 ./mvnw clean package
-docker compose up --build --remove-orphans --always-recreate-deps
+if [ $? -eq 0 ]; then
+    docker compose up --build --remove-orphans --always-recreate-deps
+fi
