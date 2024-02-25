@@ -1,35 +1,62 @@
 package net.caimito.socialblogging;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
+@SpringBootTest
+@ActiveProfiles("test")
 public class DataTests {
 
   @Container
   private static final MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest");
 
+  @Autowired
+  private PostsRepository postsRepository;
+
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     mongoDBContainer.start();
     // Additional setup if needed
   }
 
   @AfterAll
-  public static void tearDown() {
+  static void tearDown() {
     mongoDBContainer.stop();
     // Additional teardown if needed
   }
 
-  @Test
-  public void testSomething() {
-    // Your test code here
+  @BeforeEach
+  void init() {
+    postsRepository.deleteAll();
   }
 
-  // Additional test methods if needed
+  @Test
+  void savePostDocument() {
+    postsRepository.save(new PostDocument("https://mastodon.social/123", "https://example.com/blog/123",
+        SocialMediaServices.ACTIVITY_PUB));
+
+    assertThat(postsRepository.count()).isEqualTo(1);
+  }
+
+  @Test
+  void findPostDocument() {
+    postsRepository.save(new PostDocument("https://mastodon.social/123", "https://example.com/blog/123",
+        SocialMediaServices.ACTIVITY_PUB));
+    postsRepository.save(new PostDocument("https://mastodon.social/123", "https://example.com/blog/123",
+        SocialMediaServices.TWITTER));
+
+    assertThat(postsRepository.findByBlogArticleURL("https://example.com/blog/123")).hasSize(2);
+  }
 
 }
