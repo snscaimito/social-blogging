@@ -24,6 +24,9 @@ public class DataTests {
   @Autowired
   private PostsRepository postsRepository;
 
+  @Autowired
+  private BlogWatcher blogWatcher;
+
   @BeforeAll
   static void setUp() {
     mongoDBContainer.start();
@@ -57,6 +60,11 @@ public class DataTests {
         SocialMediaServices.TWITTER));
 
     assertThat(postsRepository.findByBlogArticleURL("https://example.com/blog/123")).hasSize(2);
+  }
+
+  @Test
+  void testBlogWatcher() {
+    blogWatcher.watchBlogs();
   }
 
 }

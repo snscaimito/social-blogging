@@ -1,0 +1,29 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"
+  version="2.0">
+  <script />
+  <channel>
+    <title>Stephan Schwab</title>
+    <description>As International Software Development Coach and Trainer I offer to CEOs and
+      Department Leaders technical and organizational team coaching as a professional service to
+      improve the value creation chain within their organization and to improve the quality of the
+      product they are making.</description>
+    <link>http://www.stephan-schwab.com</link>
+    <atom:link href="http://www.stephan-schwab.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flowing Seasonal Creek</title>
+      <description>After some 50 liters of rain over the last two days I went out with the camera to
+        document how the seasonal #creek looks like. The YouTube community around Project Granja
+        Caimito had been making a lot of good suggestions on how to improve that creek for better
+        #water #retention and today was a great opportunity to add some real world data to it and
+        show how past modifications of the creek work with flowing water.</description>
+      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
+      <link>http://www.stephan-schwab.com/2024/02/12/flowing-seasonal-creek.html</link>
+      <guid isPermaLink="true">http://www.stephan-schwab.com/2024/02/12/flowing-seasonal-creek.html</guid>
+      <category>andalusia</category>
+      <category>homesteading</category>
+      <category>ecosystem</category>
+      <category>spain</category>
+      <category>drought</category>
+    </item>
+  </channel>
+</rss>

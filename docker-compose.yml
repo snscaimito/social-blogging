@@ -17,3 +17,5 @@ services:
       - "8080:8080"
     links:
       - mongo
+    environment:
+      - RSS_FEED=${RSS_FEED}
