@@ -26,15 +26,7 @@ public class BlogWatcherFake implements BlogWatcher {
 
       feed.getEntries().forEach(entry -> {
         SocialBloggingItem item = RssItemTransformer.toSocialBloggingItem(entry);
-
         LOGGER.info("Item {}", item);
-
-        String description = entry.getDescription().getValue()
-            .replaceAll("\r\n", "")
-            .replaceAll("\\s+", " ");
-        LOGGER.info("Description: {}", description);
-
-        entry.getCategories().forEach(category -> LOGGER.info("Category: {}", category.getName()));
       });
 
     } catch (Exception e) {
