@@ -12,7 +12,7 @@ public class ActivityPubPublisher implements Publisher {
 
   @Override
   public Optional<PostDocument> publish(SocialBloggingItem item) {
-    LOGGER.info("Publishing to ActivityPub {}", item);
+    LOGGER.info("FAKE Publishing to ActivityPub {}", item);
     return Optional.empty();
   }
 

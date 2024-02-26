@@ -7,11 +7,11 @@ import com.rometools.rome.feed.synd.SyndFeed;
 
 public abstract class RssReader {
   private static final Logger LOGGER = LoggerFactory.getLogger(RssReader.class);
-  private Publisher publisher;
+  private PublisherProvider publisherProvider;
   private PostsRepository postsRepository;
 
-  public RssReader(Publisher publisher, PostsRepository postsRepository) {
-    this.publisher = publisher;
+  public RssReader(PublisherProvider publisherProvider, PostsRepository postsRepository) {
+    this.publisherProvider = publisherProvider;
     this.postsRepository = postsRepository;
   }
 
@@ -22,9 +22,9 @@ public abstract class RssReader {
       SocialBloggingItem item = RssItemTransformer.toSocialBloggingItem(entry);
       LOGGER.debug("Item {}", item);
 
-      publisher.publish(item).ifPresent(postDocument -> {
+      publisherProvider.getPublishers().forEach(publisher -> publisher.publish(item).ifPresent(postDocument -> {
         postsRepository.save(postDocument);
-      });
+      }));
 
     });
   }

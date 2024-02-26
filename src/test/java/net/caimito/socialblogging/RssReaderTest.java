@@ -6,7 +6,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +26,16 @@ public class RssReaderTest {
   @Mock
   private PostsRepository postsRepository;
 
+  @Mock
+  private PublisherProvider publisherProvider;
+
   @Test
   public void notPublished() {
-    when(feed.getEntries()).thenReturn(new ArrayList<>());
+    SyndEntry syndEntry = mock(SyndEntry.class);
+    when(syndEntry.getTitle()).thenReturn("Title");
+    when(syndEntry.getLink()).thenReturn("http://example.com/1");
+
+    when(feed.getEntries()).thenReturn(List.of(syndEntry));
 
     Publisher publisher = new Publisher() {
       @Override
@@ -38,7 +44,9 @@ public class RssReaderTest {
       }
     };
 
-    RssReader rssReader = new RssReader(publisher, postsRepository) {
+    when(publisherProvider.getPublishers()).thenReturn(List.of(publisher));
+
+    RssReader rssReader = new RssReader(publisherProvider, postsRepository) {
     };
 
     rssReader.processFeed(feed);
@@ -61,7 +69,9 @@ public class RssReaderTest {
       }
     };
 
-    RssReader rssReader = new RssReader(publisher, postsRepository) {
+    when(publisherProvider.getPublishers()).thenReturn(List.of(publisher));
+
+    RssReader rssReader = new RssReader(publisherProvider, postsRepository) {
     };
 
     rssReader.processFeed(feed);

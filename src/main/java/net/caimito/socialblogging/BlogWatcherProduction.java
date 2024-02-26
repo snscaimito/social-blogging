@@ -18,8 +18,8 @@ import com.rometools.rome.io.XmlReader;
 public class BlogWatcherProduction extends RssReader implements BlogWatcher {
   private static final Logger LOGGER = LoggerFactory.getLogger(BlogWatcherProduction.class);
 
-  public BlogWatcherProduction(Publisher publisher, PostsRepository postsRepository) {
-    super(publisher, postsRepository);
+  public BlogWatcherProduction(PublisherProvider publisherProvider, PostsRepository postsRepository) {
+    super(publisherProvider, postsRepository);
   }
 
   @Scheduled(fixedRate = 60000)

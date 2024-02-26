@@ -16,8 +16,8 @@ import com.rometools.rome.io.XmlReader;
 public class BlogWatcherFake extends RssReader implements BlogWatcher {
   private static final Logger LOGGER = LoggerFactory.getLogger(BlogWatcherFake.class);
 
-  public BlogWatcherFake(Publisher publisher, PostsRepository postsRepository) {
-    super(publisher, postsRepository);
+  public BlogWatcherFake(PublisherProvider publisherProvider, PostsRepository postsRepository) {
+    super(publisherProvider, postsRepository);
   }
 
   @Override
