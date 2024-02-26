@@ -1,7 +1,9 @@
 package net.caimito.socialblogging;
 
+import java.util.Optional;
+
 public interface Publisher {
 
-  void publish(SocialBloggingItem item);
+  Optional<PostDocument> publish(SocialBloggingItem item);
 
 }
