@@ -42,6 +42,11 @@ public class RssReaderTest {
       public Optional<PostDocument> publish(SocialBloggingItem item) {
         return Optional.empty();
       }
+
+      @Override
+      public SocialMediaServices getService() {
+        return SocialMediaServices.ACTIVITY_PUB;
+      }
     };
 
     when(publisherProvider.getPublishers()).thenReturn(List.of(publisher));
@@ -67,6 +72,11 @@ public class RssReaderTest {
       public Optional<PostDocument> publish(SocialBloggingItem item) {
         return Optional.of(new PostDocument(null, null, null));
       }
+
+      @Override
+      public SocialMediaServices getService() {
+        return SocialMediaServices.ACTIVITY_PUB;
+      }
     };
 
     when(publisherProvider.getPublishers()).thenReturn(List.of(publisher));
@@ -77,6 +87,38 @@ public class RssReaderTest {
     rssReader.processFeed(feed);
 
     verify(postsRepository).save(any());
+  }
+
+  @Test
+  public void doNotPublishIfAlreadyPublished() {
+    SyndEntry syndEntry = mock(SyndEntry.class);
+    when(syndEntry.getTitle()).thenReturn("Title");
+    when(syndEntry.getLink()).thenReturn("http://example.com/1");
+
+    when(feed.getEntries()).thenReturn(List.of(syndEntry));
+
+    Publisher publisher = new Publisher() {
+      @Override
+      public Optional<PostDocument> publish(SocialBloggingItem item) {
+        return Optional.of(new PostDocument(null, null, null));
+      }
+
+      @Override
+      public SocialMediaServices getService() {
+        return SocialMediaServices.ACTIVITY_PUB;
+      }
+    };
+
+    when(publisherProvider.getPublishers()).thenReturn(List.of(publisher));
+    when(postsRepository.findByBlogArticleURLAndSocialMediaService("http://example.com/1",
+        SocialMediaServices.ACTIVITY_PUB)).thenReturn(Optional.of(new PostDocument(null, null, null)));
+
+    RssReader rssReader = new RssReader(publisherProvider, postsRepository) {
+    };
+
+    rssReader.processFeed(feed);
+
+    verify(postsRepository, never()).save(any());
   }
 
 }

@@ -13,7 +13,14 @@ public class ActivityPubPublisher implements Publisher {
   @Override
   public Optional<PostDocument> publish(SocialBloggingItem item) {
     LOGGER.info("FAKE Publishing to ActivityPub {}", item);
-    return Optional.empty();
+    PostDocument post = new PostDocument("http://activitypub.com/1", item.getArticleURL().toExternalForm(),
+        SocialMediaServices.ACTIVITY_PUB);
+    return Optional.of(post);
+  }
+
+  @Override
+  public SocialMediaServices getService() {
+    return SocialMediaServices.ACTIVITY_PUB;
   }
 
 }

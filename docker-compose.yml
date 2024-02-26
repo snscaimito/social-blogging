@@ -19,3 +19,4 @@ services:
       - mongo
     environment:
       - RSS_FEED=${RSS_FEED}
+      - LOGGING_LEVEL_SOCIAL_BLOGGING=${LOGGING_LEVEL_SOCIAL_BLOGGING}

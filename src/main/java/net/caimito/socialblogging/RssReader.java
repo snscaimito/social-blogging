@@ -22,9 +22,15 @@ public abstract class RssReader {
       SocialBloggingItem item = RssItemTransformer.toSocialBloggingItem(entry);
       LOGGER.debug("Item {}", item);
 
-      publisherProvider.getPublishers().forEach(publisher -> publisher.publish(item).ifPresent(postDocument -> {
-        postsRepository.save(postDocument);
-      }));
+      publisherProvider.getPublishers().forEach(publisher -> {
+        postsRepository
+            .findByBlogArticleURLAndSocialMediaService(item.getArticleURL().toExternalForm(), publisher.getService())
+            .ifPresentOrElse(post -> LOGGER.debug("Post already published {}", post),
+                () -> publisher.publish(item).ifPresentOrElse(post -> {
+                  LOGGER.debug("Published {}", post);
+                  postsRepository.save(post);
+                }, () -> LOGGER.debug("Not published {}", item)));
+      });
 
     });
   }

@@ -14,4 +14,9 @@ public class TwitterPublisher implements Publisher {
     return Optional.empty();
   }
 
+  @Override
+  public SocialMediaServices getService() {
+    return SocialMediaServices.TWITTER;
+  }
+
 }
