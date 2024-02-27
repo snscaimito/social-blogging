@@ -31,7 +31,6 @@ public abstract class RssReader {
                   postsRepository.save(post);
                 }, () -> LOGGER.debug("Not published {}", item)));
       });
-
     });
   }
 

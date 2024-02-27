@@ -11,7 +11,9 @@ public class TwitterPublisher implements Publisher {
   @Override
   public Optional<PostDocument> publish(SocialBloggingItem item) {
     LOGGER.info("FAKE Publishing to Twitter {}", item);
-    return Optional.empty();
+    PostDocument post = new PostDocument("http://twitter.com/1", item.getArticleURL().toExternalForm(),
+        SocialMediaServices.TWITTER);
+    return Optional.of(post);
   }
 
   @Override

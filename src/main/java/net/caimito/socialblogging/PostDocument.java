@@ -35,4 +35,10 @@ public class PostDocument {
     return socialMediaService;
   }
 
+  @Override
+  public String toString() {
+    return "PostDocument [id=" + id + ", blogArticleURL=" + blogArticleURL + ", socialMediaService="
+        + socialMediaService + "]";
+  }
+
 }

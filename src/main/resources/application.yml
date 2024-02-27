@@ -8,3 +8,4 @@ logging:
   level:
     root: WARN
     net.caimito.socialblogging: ${LOGGING_LEVEL_SOCIAL_BLOGGING:INFO} # Override with environment variable
+    org.springframework.web: DEBUG
