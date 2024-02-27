@@ -1,13 +1,10 @@
-name: Node.js CI
+name: Build Container Candidate
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 env:
-  NODE_VERSION: 18.x
   CONTAINER_IMAGE: ghcr.io/snscaimito/social-blogging:candidate
 
 jobs:
@@ -16,21 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Build with Maven
+      run: ./mvnw package
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
