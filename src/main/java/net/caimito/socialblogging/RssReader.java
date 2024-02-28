@@ -24,7 +24,7 @@ public abstract class RssReader {
 
       publisherProvider.getPublishers().forEach(publisher -> {
         postsRepository
-            .findByBlogArticleURLAndSocialMediaService(item.getArticleURL().toExternalForm(), publisher.getService())
+            .findByBlogArticleURLAndSocialMediaService(item.getArticleURL().getPath(), publisher.getService())
             .ifPresentOrElse(post -> LOGGER.debug("Post already published {}", post),
                 () -> publisher.publish(item).ifPresentOrElse(post -> {
                   LOGGER.debug("Published {}", post);

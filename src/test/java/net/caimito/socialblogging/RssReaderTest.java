@@ -110,7 +110,7 @@ public class RssReaderTest {
     };
 
     when(publisherProvider.getPublishers()).thenReturn(List.of(publisher));
-    when(postsRepository.findByBlogArticleURLAndSocialMediaService("http://example.com/1",
+    when(postsRepository.findByBlogArticleURLAndSocialMediaService("/1",
         SocialMediaServices.ACTIVITY_PUB)).thenReturn(Optional.of(new PostDocument(null, null, null)));
 
     RssReader rssReader = new RssReader(publisherProvider, postsRepository) {
