@@ -37,8 +37,9 @@ public class PostDocument {
 
   @Override
   public String toString() {
-    return "PostDocument [id=" + id + ", blogArticleURL=" + blogArticleURL + ", socialMediaService="
-        + socialMediaService + "]";
+    return "PostDocument [blogArticleURL=" + blogArticleURL + ", id=" + id + ", socialMediaPostURL="
+        + socialMediaPostURL
+        + ", socialMediaService=" + socialMediaService + "]";
   }
 
 }

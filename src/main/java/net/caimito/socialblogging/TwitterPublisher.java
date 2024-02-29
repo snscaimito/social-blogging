@@ -1,5 +1,7 @@
 package net.caimito.socialblogging;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -11,8 +13,14 @@ public class TwitterPublisher implements Publisher {
   @Override
   public Optional<PostDocument> publish(SocialBloggingItem item) {
     LOGGER.info("FAKE Publishing to Twitter {}", item);
-    PostDocument post = PostDocumentBuilder.buildPostDocument(item, SocialMediaServices.TWITTER);
-    return Optional.of(post);
+    try {
+      URL socialMediaPostURL = URI.create("https://twitter.example/com").toURL();
+      PostDocument post = PostDocumentBuilder.buildPostDocument(socialMediaPostURL, item, SocialMediaServices.TWITTER);
+      return Optional.of(post);
+    } catch (Exception e) {
+      LOGGER.error("Error publishing to Twitter", e);
+      return Optional.empty();
+    }
   }
 
   @Override

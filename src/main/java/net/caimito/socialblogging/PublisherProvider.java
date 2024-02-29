@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class PublisherProvider {
 
   private static final List<Publisher> publishers = List.of(
+      new ATProtoPublisher(),
       new TwitterPublisher(),
       new ActivityPubPublisher());
 
