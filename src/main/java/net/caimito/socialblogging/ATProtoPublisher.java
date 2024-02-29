@@ -21,6 +21,9 @@ import bsky4j.domain.Service;
 public class ATProtoPublisher implements Publisher {
   private static final Logger LOGGER = LoggerFactory.getLogger(ATProtoPublisher.class);
 
+  @Value("${atproto.enabled:false}")
+  private boolean enabled;
+
   @Value("${atproto.handle}")
   private String handle;
 
@@ -37,6 +40,11 @@ public class ATProtoPublisher implements Publisher {
 
   @Override
   public Optional<PostDocument> publish(SocialBloggingItem item) {
+    if (!enabled) {
+      LOGGER.info("AT Proto is not enabled");
+      return Optional.empty();
+    }
+
     try {
       Response<ServerCreateSessionResponse> response = BlueskyFactory
           .getInstance(Service.BSKY_SOCIAL.getUri())
