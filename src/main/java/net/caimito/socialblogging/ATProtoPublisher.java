@@ -24,13 +24,13 @@ public class ATProtoPublisher implements Publisher {
   @Value("${atproto.enabled:false}")
   private boolean enabled;
 
-  @Value("${atproto.handle}")
+  @Value("${atproto.handle:}")
   private String handle;
 
-  @Value("${atproto.password}")
+  @Value("${atproto.password:}")
   private String password;
 
-  @Value("${atproto.profileUrl}")
+  @Value("${atproto.profileUrl:}")
   private String profileUrl;
 
   @Override
