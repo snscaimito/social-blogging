@@ -21,16 +21,16 @@ import bsky4j.domain.Service;
 public class ATProtoPublisher implements Publisher {
   private static final Logger LOGGER = LoggerFactory.getLogger(ATProtoPublisher.class);
 
-  @Value("${atproto.enabled:false}")
+  @Value("${ATPROTO_ENABLED:false}")
   private boolean enabled;
 
-  @Value("${atproto.handle:}")
+  @Value("${ATPROTO_HANDLE:}")
   private String handle;
 
-  @Value("${atproto.password:}")
+  @Value("${ATPROTO_PASSWORD:}")
   private String password;
 
-  @Value("${atproto.profileUrl:}")
+  @Value("${ATPROTO_PROFILEURL:}")
   private String profileUrl;
 
   @Override
