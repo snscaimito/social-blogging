@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import bsky4j.BlueskyFactory;
@@ -21,17 +20,11 @@ import bsky4j.domain.Service;
 public class ATProtoPublisher implements Publisher {
   private static final Logger LOGGER = LoggerFactory.getLogger(ATProtoPublisher.class);
 
-  @Value("${ATPROTO_ENABLED:false}")
-  private boolean enabled;
+  private ExternalConfiguration externalConfiguration;
 
-  @Value("${ATPROTO_HANDLE:}")
-  private String handle;
-
-  @Value("${ATPROTO_PASSWORD:}")
-  private String password;
-
-  @Value("${ATPROTO_PROFILEURL:}")
-  private String profileUrl;
+  public ATProtoPublisher(ExternalConfiguration externalConfiguration) {
+    this.externalConfiguration = externalConfiguration;
+  }
 
   @Override
   public SocialMediaServices getService() {
@@ -40,7 +33,7 @@ public class ATProtoPublisher implements Publisher {
 
   @Override
   public Optional<PostDocument> publish(SocialBloggingItem item) {
-    if (!enabled) {
+    if (!externalConfiguration.isATProtoEnabled()) {
       LOGGER.info("AT Proto is not enabled");
       return Optional.empty();
     }
@@ -50,8 +43,8 @@ public class ATProtoPublisher implements Publisher {
           .getInstance(Service.BSKY_SOCIAL.getUri())
           .server().createSession(
               ServerCreateSessionRequest.builder()
-                  .identifier(handle)
-                  .password(password)
+                  .identifier(externalConfiguration.getATProtoHandle())
+                  .password(externalConfiguration.getATProtoPassword())
                   .build());
 
       String accessJwt = response.get().getAccessJwt();
@@ -68,7 +61,7 @@ public class ATProtoPublisher implements Publisher {
       LOGGER.debug("URI: {}", uri);
 
       String postId = uri.substring(uri.lastIndexOf("app.bsky.feed.post") + "app.bsky.feed.post".length() + 1);
-      String url = profileUrl + "/post/" + postId;
+      String url = externalConfiguration.getATProtoProfileUrl() + "/post/" + postId;
       LOGGER.debug("URL: {}", url);
 
       URL socialMediaPostURL = URI.create(url).toURL();

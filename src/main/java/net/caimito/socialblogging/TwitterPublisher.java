@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TwitterPublisher implements Publisher {
   private static final Logger LOGGER = LoggerFactory.getLogger(TwitterPublisher.class);
 
