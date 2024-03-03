@@ -13,12 +13,14 @@ public class ATProtoMessageFormatter implements MessageFormatter {
   public Message format(SocialBloggingItem item) {
     String linkText = item.getArticleURL().toExternalForm();
     String hashtags = String.join(" ", addHashtag(item.getCategories()));
+    String descriptionEllipse = " [...]";
     int remainingLength = MAX_MESSAGE_LENGTH -
         (linkText.length() + 1) -
-        (hashtags.length() + 1);
+        (hashtags.length() + 1) -
+        descriptionEllipse.length();
 
-    String messageText = String.format("%s\n%s\n%s", item.getDescription().substring(0, remainingLength), linkText,
-        hashtags);
+    String messageText = String.format("%s%s\n%s\n%s", item.getDescription().substring(0, remainingLength),
+        descriptionEllipse, linkText, hashtags);
 
     return new Message() {
       @Override

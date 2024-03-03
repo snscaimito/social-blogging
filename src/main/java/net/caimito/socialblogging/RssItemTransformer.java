@@ -17,7 +17,8 @@ public class RssItemTransformer {
       String description = syndEntry.getDescription() == null ? ""
           : syndEntry.getDescription().getValue()
               .replaceAll("\r\n", "")
-              .replaceAll("\\s+", " ");
+              .replaceAll("\\s+", " ")
+              .replaceAll("<[^>]*>", "");
 
       URL url = URI.create(syndEntry.getLink()).toURL();
 
