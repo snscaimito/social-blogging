@@ -1,7 +1,8 @@
 package net.caimito.socialblogging;
 
 import java.net.URI;
-import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -15,6 +16,9 @@ import bsky4j.api.entity.bsky.feed.FeedPostRequest;
 import bsky4j.api.entity.bsky.feed.FeedPostResponse;
 import bsky4j.api.entity.share.Response;
 import bsky4j.domain.Service;
+import bsky4j.model.bsky.richtext.RichtextFacet;
+import bsky4j.util.facet.FacetList;
+import bsky4j.util.facet.FacetUtil;
 
 @Component
 public class ATProtoPublisher implements Publisher {
@@ -51,6 +55,9 @@ public class ATProtoPublisher implements Publisher {
                   .build());
 
       String accessJwt = response.get().getAccessJwt();
+      String postText = messageFormatter.format(item).getFormattedContent();
+      FacetList list = FacetUtil.extractFacets(postText);
+      List<RichtextFacet> facets = list.getRichTextFacets(Collections.EMPTY_MAP);
 
       Response<FeedPostResponse> feedResponse = BlueskyFactory
           .getInstance(Service.BSKY_SOCIAL.getUri())
@@ -58,6 +65,7 @@ public class ATProtoPublisher implements Publisher {
               FeedPostRequest.builder()
                   .accessJwt(accessJwt)
                   .text(messageFormatter.format(item).getFormattedContent())
+                  .facets(facets)
                   .build());
 
       String uri = feedResponse.get().getUri();
