@@ -54,7 +54,7 @@ public class ATProtoPublisher implements Publisher {
           .feed().post(
               FeedPostRequest.builder()
                   .accessJwt(accessJwt)
-                  .text("Hello World!!")
+                  .text("Hello World!!") // TODO make real
                   .build());
 
       String uri = feedResponse.get().getUri();
