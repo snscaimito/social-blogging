@@ -21,9 +21,12 @@ public class ATProtoPublisher implements Publisher {
   private static final Logger LOGGER = LoggerFactory.getLogger(ATProtoPublisher.class);
 
   private ExternalConfiguration externalConfiguration;
+  private MessageFormatter messageFormatter;
 
-  public ATProtoPublisher(ExternalConfiguration externalConfiguration) {
+  public ATProtoPublisher(ExternalConfiguration externalConfiguration,
+      ATProtoMessageFormatter messageFormatter) {
     this.externalConfiguration = externalConfiguration;
+    this.messageFormatter = messageFormatter;
   }
 
   @Override
@@ -54,7 +57,7 @@ public class ATProtoPublisher implements Publisher {
           .feed().post(
               FeedPostRequest.builder()
                   .accessJwt(accessJwt)
-                  .text("Hello World!!") // TODO make real
+                  .text(messageFormatter.format(item).getFormattedContent())
                   .build());
 
       String uri = feedResponse.get().getUri();
