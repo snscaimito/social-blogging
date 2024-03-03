@@ -58,6 +58,8 @@ public class ATProtoPublisher implements Publisher {
       String accessJwt = response.get().getAccessJwt();
       String postText = messageFormatter.format(item).getFormattedContent();
       FacetList list = FacetUtil.extractFacets(postText);
+
+      @SuppressWarnings("unchecked")
       List<RichtextFacet> facets = list.getRichTextFacets(Collections.EMPTY_MAP);
 
       Response<FeedPostResponse> feedResponse = BlueskyFactory
